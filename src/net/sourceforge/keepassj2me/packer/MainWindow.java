@@ -274,7 +274,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		    fc.setDialogTitle("Open source Midlet");
 		    File f = new File(srcJar.getText());
 		    fc.setCurrentDirectory(f.getParentFile());
-		    fc.addChoosableFileFilter(new FilterJAR());
+		    fc.addChoosableFileFilter(new FilterExt("jar", "Midlet (*.jar)"));
 		    if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 		    	srcJar.setText(fc.getSelectedFile().getAbsolutePath());
 		    };
@@ -283,7 +283,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		    fc.setDialogTitle("Open source KDB");
 		    //File f = new File(srcJar.getText());
 		    //fc.setCurrentDirectory(f.getParentFile());
-		    fc.addChoosableFileFilter(new FilterKDB());
+		    fc.addChoosableFileFilter(new FilterExt("kdb", "KeePass Key Database (*.kdb)"));
 		    if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 		    	//TODO: Check file presence in list
 		    	srcKdbModel.addElement(fc.getSelectedFile().getAbsolutePath());
@@ -297,9 +297,11 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		    fc.setDialogTitle("Save taget Midlet");
 		    File f = new File(dstJar.getText());
 		    fc.setCurrentDirectory(f.getParentFile());
-		    fc.addChoosableFileFilter(new FilterJAR());
+		    fc.addChoosableFileFilter(new FilterExt("jar", "Midlet (*.jar)"));
 		    if (fc.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
-		    	dstJar.setText(fc.getSelectedFile().getAbsolutePath()+".jar");
+		    	String path = fc.getSelectedFile().getAbsolutePath();
+		    	if (!path.substring(path.length() - 4).equalsIgnoreCase(".jar")) path += ".jar";
+		    	dstJar.setText(path);
 		    };
 		} else if (button == ok) {
 		} else if (button == cancel) {
