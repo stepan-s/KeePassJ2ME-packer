@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
+import java.util.Enumeration;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -34,6 +35,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	private DefaultListModel srcKdbModel = null;
 	private JButton srcKdbAdd = null;
 	private JButton srcKdbRemove = null;
+	private String srcKbdLastDir = null;
 	
 	private JTextField dstJar = null;
 	private JButton dstJarBrowse = null;
@@ -267,6 +269,14 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
     	System.exit(0);
 	}
 	
+	private boolean inSrcKdb(String path) {
+		for (Enumeration<?> e = srcKdbModel.elements(); e.hasMoreElements();) {
+			if (e.nextElement().toString().compareTo(path) == 0)
+	    		 return true;
+		};
+		return false;
+	}
+	
 	public void actionPerformed(ActionEvent arg0) {
 		JButton button = (JButton)arg0.getSource();
 		if (button == srcJarBrowse) {
@@ -281,12 +291,17 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		} else if (button == srcKdbAdd) {
 		    JFileChooser fc = new JFileChooser();
 		    fc.setDialogTitle("Open source KDB");
-		    //File f = new File(srcJar.getText());
-		    //fc.setCurrentDirectory(f.getParentFile());
+		    fc.setMultiSelectionEnabled(true);
+		    if (srcKbdLastDir != null) fc.setCurrentDirectory(new File(srcKbdLastDir));
 		    fc.addChoosableFileFilter(new FilterExt("kdb", "KeePass Key Database (*.kdb)"));
 		    if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-		    	//TODO: Check file presence in list
-		    	srcKdbModel.addElement(fc.getSelectedFile().getAbsolutePath());
+		    	File[] files = fc.getSelectedFiles();
+		    	int i;
+		    	for(i = 0; i < files.length; ++i) {
+		    		if (i == 0) srcKbdLastDir = files[i].getParent();
+		    		if (!inSrcKdb(files[i].getAbsolutePath()))
+		    			srcKdbModel.addElement(files[i].getAbsolutePath());
+		    	};
 		    };
 		} else if (button == srcKdbRemove) {
 			if (srcKdb.getSelectedIndex() >= 0) {
