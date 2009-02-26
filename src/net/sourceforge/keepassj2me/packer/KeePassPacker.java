@@ -1,21 +1,28 @@
-package org.phoneid.keepassinstaller;
+package net.sourceforge.keepassj2me.packer;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import java.awt.EventQueue;
-import javax.swing.JFileChooser;
+import javax.swing.UIManager;
+
 import java.io.*;
 import java.util.jar.*;
 import java.nio.channels.FileChannel;
 
-public final class KeePassInstaller implements Runnable {
+public final class KeePassPacker implements Runnable {
 
     public static void main(String[] args) {
-        EventQueue.invokeLater (new KeePassInstaller());
+        EventQueue.invokeLater (new KeePassPacker());
     } 
 
-    public void run() {
-	try {
+    @SuppressWarnings("deprecation")
+	public void run() {
+    	try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) {};
+    	
+    	MainWindow main = new MainWindow();
+    	main.setVisible(true);
+    	
+	/*try {
 	    //Create a file chooser
 	    JFileChooser fc = new JFileChooser();
 	    
@@ -27,7 +34,7 @@ public final class KeePassInstaller implements Runnable {
 	    int returnVal = fc.showOpenDialog(null);
 	    
 	    if (returnVal == JFileChooser.APPROVE_OPTION) {
-		File dir = fc.getCurrentDirectory();
+		//File dir = fc.getCurrentDirectory();
 		File file = fc.getSelectedFile();
 		//This is where a real application would open the file.
 		System.out.println (file.getAbsolutePath());
@@ -42,7 +49,7 @@ public final class KeePassInstaller implements Runnable {
 	} catch (IOException e) {
 	    e.printStackTrace();
 	    System.exit(1);
-	}
+	}*/
     }
 
     public void copyFile(String from, String to)
