@@ -77,7 +77,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		 */
 		x = 0; y = 0;
 		
-		JLabel caption = new JLabel("Source JAR");
+		JLabel caption = new JLabel("Source JAR - KeePassJ2ME Midlet");
 		caption.setIcon(new ImageIcon(getImage("compress.png")));
 		constraints.anchor = GridBagConstraints.WEST;
 		constraints.fill = GridBagConstraints.NONE;
@@ -122,7 +122,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		 */
 		y = 2;
 		
-		JLabel caption2 = new JLabel("Source KDB");
+		JLabel caption2 = new JLabel("Source KDB - KeePass Key Databases");
 		caption2.setIcon(new ImageIcon(getImage("database.png")));
 		constraints.anchor = GridBagConstraints.WEST;
 		constraints.fill = GridBagConstraints.NONE;
@@ -187,7 +187,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		 */
 		y = 5;
 		
-		JLabel caption3 = new JLabel("Target JAR");
+		JLabel caption3 = new JLabel("Target JAR - KeePassJ2ME Midlet with KDB");
 		caption3.setIcon(new ImageIcon(getImage("compress.png")));
 		constraints.anchor = GridBagConstraints.WEST;
 		constraints.fill = GridBagConstraints.NONE;
