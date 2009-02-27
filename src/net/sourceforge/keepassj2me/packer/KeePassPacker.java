@@ -17,28 +17,22 @@
 
 package net.sourceforge.keepassj2me.packer;
 
-import java.awt.EventQueue;
 import javax.swing.UIManager;
 
 /**
  * KeePassPacker
  * 
- * @author Naomaru Itoi
  * @author Stepan Strelets
  *
  */
-public final class KeePassPacker implements Runnable {
-
+public final class KeePassPacker {
+	
     public static void main(String[] args) {
-        EventQueue.invokeLater (new KeePassPacker());
-    } 
-
-	public void run() {
     	try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {};
     	
     	MainWindow main = new MainWindow();
     	main.setVisible(true);
-    }
+    } 
 }

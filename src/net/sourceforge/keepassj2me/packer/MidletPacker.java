@@ -72,7 +72,12 @@ public class MidletPacker {
 			if (!srcKdb.isFile()) throw new Exception("Source KDB '"+kdb+"' not is file");
 			if (!srcKdb.canRead()) throw new Exception("Source KDB '"+kdb+"' not readable");
 			
+			// check for ASCII, jar not allow Unicode
 			name = srcKdb.getName();
+			if ((new String(name.getBytes(), "ISO-8859-1")).compareTo(name) != 0) {
+				JOptionPane.showMessageDialog(null, "Source KDB '"+name+"' contain not ASCII symbols, renamed", "Warning", JOptionPane.WARNING_MESSAGE);
+				name = "renamed.kdb";
+			};
 			
 			// check duplicate filename
 			String name2 = name;

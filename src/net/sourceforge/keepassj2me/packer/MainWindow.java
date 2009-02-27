@@ -51,7 +51,6 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	private JButton dstJarBrowse = null;
 	
 	private JButton info = null;
-	private JButton save = null;
 	private JButton ok = null;
 	private JButton cancel = null;
 	
@@ -86,7 +85,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		constraints.gridwidth = 2;
 		constraints.gridx = x;
 		constraints.gridy = y;
-		constraints.insets = new Insets(5, 5, 0, 5);
+		constraints.insets = new Insets(20, 20, 0, 20);
 		constraints.weightx = 0;
 		constraints.weighty = 0;
 		this.add(caption, constraints);
@@ -98,7 +97,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		constraints.gridwidth = 1;
 		constraints.gridx = x;
 		constraints.gridy = y + 1;
-		constraints.insets = new Insets(5, 5, 5, 5);
+		constraints.insets = new Insets(5, 20, 5, 5);
 		constraints.weightx = 1;
 		constraints.weighty = 0;
 		this.add(srcJar, constraints);
@@ -113,7 +112,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		constraints.gridwidth = 1;
 		constraints.gridx = x + 1;
 		constraints.gridy = y + 1;
-		constraints.insets = new Insets(5, 5, 5, 5);
+		constraints.insets = new Insets(5, 5, 5, 20);
 		constraints.weightx = 0;
 		constraints.weighty = 0;
 		this.add(srcJarBrowse, constraints);
@@ -131,7 +130,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		constraints.gridwidth = 2;
 		constraints.gridx = x;
 		constraints.gridy = y;
-		constraints.insets = new Insets(5, 5, 0, 5);
+		constraints.insets = new Insets(5, 20, 0, 20);
 		constraints.weightx = 0;
 		constraints.weighty = 0;
 		this.add(caption2, constraints);
@@ -148,7 +147,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		constraints.gridwidth = 1;
 		constraints.gridx = x;
 		constraints.gridy = y + 1;
-		constraints.insets = new Insets(5, 5, 5, 5);
+		constraints.insets = new Insets(5, 20, 5, 5);
 		constraints.weightx = 1;
 		constraints.weighty = 1;
 		this.add(listScroller, constraints);
@@ -163,7 +162,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		constraints.gridwidth = 1;
 		constraints.gridx = x + 1;
 		constraints.gridy = y + 1;
-		constraints.insets = new Insets(5, 5, 5, 5);
+		constraints.insets = new Insets(5, 5, 5, 20);
 		constraints.weightx = 0;
 		constraints.weighty = 0;
 		this.add(srcKdbAdd, constraints);
@@ -178,7 +177,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		constraints.gridwidth = 1;
 		constraints.gridx = x + 1;
 		constraints.gridy = y + 2;
-		constraints.insets = new Insets(5, 5, 5, 5);
+		constraints.insets = new Insets(5, 5, 5, 20);
 		constraints.weightx = 0;
 		constraints.weighty = 0;
 		this.add(srcKdbRemove, constraints);
@@ -196,7 +195,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		constraints.gridwidth = 2;
 		constraints.gridx = x;
 		constraints.gridy = y;
-		constraints.insets = new Insets(5, 5, 0, 5);
+		constraints.insets = new Insets(5, 20, 0, 20);
 		constraints.weightx = 0;
 		constraints.weighty = 0;
 		this.add(caption3, constraints);
@@ -208,7 +207,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		constraints.gridwidth = 1;
 		constraints.gridx = x;
 		constraints.gridy = y + 1;
-		constraints.insets = new Insets(5, 5, 5, 5);
+		constraints.insets = new Insets(5, 20, 5, 5);
 		constraints.weightx = 1;
 		constraints.weighty = 0;
 		this.add(dstJar, constraints);
@@ -223,7 +222,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		constraints.gridwidth = 1;
 		constraints.gridx = x + 1;
 		constraints.gridy = y + 1;
-		constraints.insets = new Insets(5, 5, 5, 5);
+		constraints.insets = new Insets(5, 5, 5, 20);
 		constraints.weightx = 0;
 		constraints.weighty = 0;
 		this.add(dstJarBrowse, constraints);
@@ -237,7 +236,10 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		panel.setLayout(new BorderLayout());
 		
 		JPanel lpanel = new JPanel();
-		lpanel.setLayout(new FlowLayout());
+		FlowLayout llayout = new FlowLayout();
+		llayout.setHgap(0);
+		llayout.setVgap(0);
+		lpanel.setLayout(llayout);
 		
 		info = new JButton("About");
 		info.setHorizontalAlignment(JButton.LEFT);
@@ -245,14 +247,11 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		info.addActionListener(this);
 		lpanel.add(info);
 		
-		save = new JButton("Save config");
-		save.setHorizontalAlignment(JButton.LEFT);
-		save.setIcon(new ImageIcon(getImage("disk.png")));
-		save.addActionListener(this);
-		lpanel.add(save);
-		
 		JPanel rpanel = new JPanel();
-		rpanel.setLayout(new FlowLayout());
+		FlowLayout rlayout = new FlowLayout();
+		rlayout.setHgap(0);
+		rlayout.setVgap(0);
+		rpanel.setLayout(rlayout);
 		
 		ok = new JButton("Pack");
 		ok.setHorizontalAlignment(JButton.LEFT);
@@ -301,6 +300,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	
 	void exit() {
 		this.setVisible(false);
+		getConfig().Save();
     	System.exit(0);
 	}
 	
@@ -377,6 +377,9 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 					"Authors (In alphabetic order):\r\n" +
 					"Naomaru Itoi\r\n" +
 					"Stepan Strelets\r\n\r\n" +
+
+					"Thanks to:\r\n" +
+					"Mark James (silk icons) http://famfamfam.com\r\n\r\n" +
 					
 					"KeePass J2ME Packer comes with ABSOLUTELY NO WARRANTY.\r\n" + 
 					"This is free software, and you are welcome to redistribute it\r\n" +
@@ -386,10 +389,6 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 					"About KeePass J2ME Packer",
 					JOptionPane.INFORMATION_MESSAGE,
 					new ImageIcon(getImage("logo.png")));
-			
-		} else if (button == save) {
-			getConfig();
-			conf.Save();
 			
 		} else if (button == ok) {
 			MidletPacker packer = new MidletPacker(getConfig());
