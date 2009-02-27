@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -12,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
+import java.net.URL;
 import java.util.Enumeration;
 
 import javax.swing.DefaultListModel;
@@ -59,7 +61,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		super();
 		int x =0, y = 0;
 		
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage("res/images/icon.png"));
+		this.setIconImage(getImage("icon.png"));
 		this.setTitle("KeePass J2ME Packer");
 		this.setSize(600, 440);
 		this.setMinimumSize(new Dimension(440, 320));
@@ -77,7 +79,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		x = 0; y = 0;
 		
 		JLabel caption = new JLabel("Source JAR");
-		caption.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage("res/images/compress.png")));
+		caption.setIcon(new ImageIcon(getImage("compress.png")));
 		constraints.anchor = GridBagConstraints.WEST;
 		constraints.fill = GridBagConstraints.NONE;
 		constraints.gridheight = 1;
@@ -103,7 +105,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		
 		srcJarBrowse = new JButton("Browse");
 		srcJarBrowse.setHorizontalAlignment(JButton.LEFT);
-		srcJarBrowse.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage("res/images/folder.png")));
+		srcJarBrowse.setIcon(new ImageIcon(getImage("folder.png")));
 		srcJarBrowse.addActionListener(this);
 		constraints.anchor = GridBagConstraints.WEST;
 		constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -122,7 +124,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		y = 2;
 		
 		JLabel caption2 = new JLabel("Source KDB");
-		caption2.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage("res/images/database.png")));
+		caption2.setIcon(new ImageIcon(getImage("database.png")));
 		constraints.anchor = GridBagConstraints.WEST;
 		constraints.fill = GridBagConstraints.NONE;
 		constraints.gridheight = 1;
@@ -153,7 +155,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		
 		srcKdbAdd = new JButton("Add");
 		srcKdbAdd.setHorizontalAlignment(JButton.LEFT);
-		srcKdbAdd.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage("res/images/add.png")));
+		srcKdbAdd.setIcon(new ImageIcon(getImage("add.png")));
 		srcKdbAdd.addActionListener(this);
 		constraints.anchor = GridBagConstraints.SOUTHWEST;
 		constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -168,7 +170,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		
 		srcKdbRemove = new JButton("Remove");
 		srcKdbRemove.setHorizontalAlignment(JButton.LEFT);
-		srcKdbRemove.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage("res/images/delete.png")));
+		srcKdbRemove.setIcon(new ImageIcon(getImage("delete.png")));
 		srcKdbRemove.addActionListener(this);
 		constraints.anchor = GridBagConstraints.NORTHWEST;
 		constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -187,7 +189,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		y = 5;
 		
 		JLabel caption3 = new JLabel("Target JAR");
-		caption3.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage("res/images/compress.png")));
+		caption3.setIcon(new ImageIcon(getImage("compress.png")));
 		constraints.anchor = GridBagConstraints.WEST;
 		constraints.fill = GridBagConstraints.NONE;
 		constraints.gridheight = 1;
@@ -213,7 +215,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		
 		dstJarBrowse = new JButton("Browse");
 		dstJarBrowse.setHorizontalAlignment(JButton.LEFT);
-		dstJarBrowse.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage("res/images/folder.png")));
+		dstJarBrowse.setIcon(new ImageIcon(getImage("folder.png")));
 		dstJarBrowse.addActionListener(this);
 		constraints.anchor = GridBagConstraints.WEST;
 		constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -239,13 +241,13 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		
 		info = new JButton("About");
 		info.setHorizontalAlignment(JButton.LEFT);
-		info.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage("res/images/information.png")));
+		info.setIcon(new ImageIcon(getImage("information.png")));
 		info.addActionListener(this);
 		lpanel.add(info);
 		
 		save = new JButton("Save config");
 		save.setHorizontalAlignment(JButton.LEFT);
-		save.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage("res/images/disk.png")));
+		save.setIcon(new ImageIcon(getImage("disk.png")));
 		save.addActionListener(this);
 		lpanel.add(save);
 		
@@ -254,13 +256,13 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		
 		ok = new JButton("Pack");
 		ok.setHorizontalAlignment(JButton.LEFT);
-		ok.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage("res/images/tick.png")));
+		ok.setIcon(new ImageIcon(getImage("tick.png")));
 		ok.addActionListener(this);
 		rpanel.add(ok);
 		
 		cancel = new JButton("Exit");
 		cancel.setHorizontalAlignment(JButton.LEFT);
-		cancel.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage("res/images/cancel.png")));
+		cancel.setIcon(new ImageIcon(getImage("cancel.png")));
 		cancel.addActionListener(this);
 		rpanel.add(cancel);
 		
@@ -291,6 +293,12 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		};
 	}
 
+	public Image getImage(String name) {
+		URL url = getClass().getResource("/res/images/" + name);
+		if (url != null) return Toolkit.getDefaultToolkit().getImage(url);
+		else return Toolkit.getDefaultToolkit().getImage("res/images/" + name);
+	}
+	
 	void exit() {
 		this.setVisible(false);
     	System.exit(0);
@@ -377,7 +385,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 					
 					"About Keepass J2ME Packer",
 					JOptionPane.INFORMATION_MESSAGE,
-					new ImageIcon(Toolkit.getDefaultToolkit().getImage("res/images/logo.png")));
+					new ImageIcon(getImage("logo.png")));
 			
 		} else if (button == save) {
 			getConfig();

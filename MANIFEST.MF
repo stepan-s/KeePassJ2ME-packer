@@ -1,0 +1,2 @@
+Manifest-Version: 1.0
+Main-Class: net.sourceforge.keepassj2me.packer.KeePassPacker
