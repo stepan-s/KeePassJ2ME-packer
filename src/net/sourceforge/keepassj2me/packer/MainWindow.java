@@ -136,7 +136,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		
 		srcKdbModel = new DefaultListModel();
 		srcKdb = new JList(srcKdbModel);
-		srcKdb.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		srcKdb.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		srcKdb.setLayoutOrientation(JList.VERTICAL);
 		srcKdb.setVisibleRowCount(-1);
 		JScrollPane listScroller = new JScrollPane(srcKdb);
@@ -287,6 +287,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 			int i = 0;
 			while((kdb = conf.getSourceKdb(i++)) != null) srcKdbModel.addElement(kdb);
 			dstJar.setText(conf.getTargetJar());
+			srcKbdLastDir = conf.getKdbLastDir();
 		};
 	}
 
@@ -310,6 +311,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 			conf.setSourceKdb(i++, e.nextElement().toString());
 		};
 		conf.setTargetJar(dstJar.getText());
+		if (srcKbdLastDir != null) conf.setKdbLastDir(srcKbdLastDir);
 		return conf;
 	}
 	
@@ -340,8 +342,9 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		    	};
 		    };
 		} else if (button == srcKdbRemove) {
-			if (srcKdb.getSelectedIndex() >= 0) {
-				srcKdbModel.remove(srcKdb.getSelectedIndex());
+			int sel[] = srcKdb.getSelectedIndices();
+			for (int i = sel.length - 1; i >= 0; --i) {
+				srcKdbModel.remove(sel[i]);
 			};
 		} else if (button == dstJarBrowse) {
 		    JFileChooser fc = new JFileChooser();

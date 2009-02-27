@@ -82,4 +82,11 @@ public class Config {
 			if (name.indexOf("src.kdb.") == 0) prop.remove(name);
 		};
 	}
+	
+	public String getKdbLastDir() {
+		return prop.getProperty("src.kdbdir", "");
+	}
+	public void setKdbLastDir(String value) {
+		prop.setProperty("src.kdbdir", value);
+	}
 }
