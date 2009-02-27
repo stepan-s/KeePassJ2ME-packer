@@ -1,5 +1,6 @@
 package net.sourceforge.keepassj2me.packer;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -20,11 +21,18 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
+/**
+ * MainWindow - GUI for packing custom KeePassJ2ME midlet
+ * 
+ * @author Stepan Strelets
+ *
+ */
 public class MainWindow extends JFrame implements ActionListener, WindowListener {
 	private static final long serialVersionUID = -62505571827133047L;
 	
@@ -40,8 +48,12 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	private JTextField dstJar = null;
 	private JButton dstJarBrowse = null;
 	
+	private JButton info = null;
+	private JButton save = null;
 	private JButton ok = null;
 	private JButton cancel = null;
+	
+	private Config conf = null;
 	
 	MainWindow () {
 		super();
@@ -50,7 +62,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("res/images/icon.png"));
 		this.setTitle("KeePass J2ME Packer");
 		this.setSize(600, 440);
-		this.setMinimumSize(new Dimension(400, 300));
+		this.setMinimumSize(new Dimension(440, 320));
 		this.setLocationRelativeTo(null);
 		
 		this.setLayout(new GridBagLayout());
@@ -60,24 +72,9 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		this.addWindowListener(this);
 		
 		/*
-		 * LOGO
-		 */
-		JLabel logo = new JLabel(new ImageIcon(Toolkit.getDefaultToolkit().getImage("res/images/logo.png")));
-		constraints.anchor = GridBagConstraints.NORTH;
-		constraints.fill = GridBagConstraints.NONE;
-		constraints.gridheight = 7;
-		constraints.gridwidth = 1;
-		constraints.gridx = 0;
-		constraints.gridy = 0;
-		constraints.insets = new Insets(20, 20, 20, 20);
-		constraints.weightx = 0;
-		constraints.weighty = 0;
-		this.add(logo, constraints);
-		
-		/*
 		 * SOURCE JAR
 		 */
-		x = 1; y = 0;
+		x = 0; y = 0;
 		
 		JLabel caption = new JLabel("Source JAR");
 		caption.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage("res/images/compress.png")));
@@ -122,7 +119,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		/*
 		 * SOURCE KDB
 		 */
-		x = 1; y = 2;
+		y = 2;
 		
 		JLabel caption2 = new JLabel("Source KDB");
 		caption2.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage("res/images/database.png")));
@@ -138,9 +135,6 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		this.add(caption2, constraints);
 		
 		srcKdbModel = new DefaultListModel();
-		/*listModel.addElement("Debbie Scott");
-		listModel.addElement("Scott Hommel");
-		listModel.addElement("Alan Sommerer");*/
 		srcKdb = new JList(srcKdbModel);
 		srcKdb.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		srcKdb.setLayoutOrientation(JList.VERTICAL);
@@ -190,7 +184,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		/*
 		 * TARGET JAR
 		 */
-		x = 1; y = 5;
+		y = 5;
 		
 		JLabel caption3 = new JLabel("Target JAR");
 		caption3.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage("res/images/compress.png")));
@@ -238,30 +232,62 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		x = 0; y = 7;
 		
 		JPanel panel = new JPanel();
-		panel.setLayout(new FlowLayout());
+		panel.setLayout(new BorderLayout());
 		
-		ok = new JButton("Pack & Save");
+		JPanel lpanel = new JPanel();
+		lpanel.setLayout(new FlowLayout());
+		
+		info = new JButton("About");
+		info.setHorizontalAlignment(JButton.LEFT);
+		info.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage("res/images/information.png")));
+		info.addActionListener(this);
+		lpanel.add(info);
+		
+		save = new JButton("Save config");
+		save.setHorizontalAlignment(JButton.LEFT);
+		save.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage("res/images/disk.png")));
+		save.addActionListener(this);
+		lpanel.add(save);
+		
+		JPanel rpanel = new JPanel();
+		rpanel.setLayout(new FlowLayout());
+		
+		ok = new JButton("Pack");
 		ok.setHorizontalAlignment(JButton.LEFT);
 		ok.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage("res/images/tick.png")));
 		ok.addActionListener(this);
-		panel.add(ok);
+		rpanel.add(ok);
 		
-		cancel = new JButton("Cancel & Exit");
+		cancel = new JButton("Exit");
 		cancel.setHorizontalAlignment(JButton.LEFT);
 		cancel.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage("res/images/cancel.png")));
 		cancel.addActionListener(this);
-		panel.add(cancel);
+		rpanel.add(cancel);
+		
+		panel.add(lpanel, BorderLayout.WEST);
+		panel.add(rpanel, BorderLayout.EAST);
 		
 		constraints.anchor = GridBagConstraints.EAST;
-		constraints.fill = GridBagConstraints.NONE;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
 		constraints.gridheight = 1;
 		constraints.gridwidth = 3;
 		constraints.gridx = x;
 		constraints.gridy = y;
-		constraints.insets = new Insets(20, 0, 0, 0);
+		constraints.insets = new Insets(20, 20, 20, 20);
 		constraints.weightx = 1;
 		constraints.weighty = 0;
 		this.add(panel, constraints);
+		
+		cancel.requestFocusInWindow();
+		
+		conf = new Config(null);
+		if (conf.Load()) {
+			srcJar.setText(conf.getSourceJar());
+			String kdb;
+			int i = 0;
+			while((kdb = conf.getSourceKdb(i++)) != null) srcKdbModel.addElement(kdb);
+			dstJar.setText(conf.getTargetJar());
+		};
 	}
 
 	void exit() {
@@ -275,6 +301,16 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	    		 return true;
 		};
 		return false;
+	}
+	public Config getConfig() {
+		conf.setSourceJar(srcJar.getText());
+		conf.clearSourceKdb();
+		int i = 0;
+		for (Enumeration<?> e = srcKdbModel.elements(); e.hasMoreElements();) {
+			conf.setSourceKdb(i++, e.nextElement().toString());
+		};
+		conf.setTargetJar(dstJar.getText());
+		return conf;
 	}
 	
 	public void actionPerformed(ActionEvent arg0) {
@@ -318,7 +354,40 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		    	if (!path.substring(path.length() - 4).equalsIgnoreCase(".jar")) path += ".jar";
 		    	dstJar.setText(path);
 		    };
+		} else if (button == info) {
+			JOptionPane.showMessageDialog(this,
+					"Version: 1.2.0\r\n\r\n" +
+					
+					"Project page:\r\nhttp://sourceforge.net/projects/keepassj2me/\r\n\r\n" +
+					
+					"License:\r\n" + 
+					"GNU GPL v2 http://www.gnu.org/licenses/gpl-2.0.html\r\n\r\n" +
+					
+					"Authors (In alphabetic order):\r\n" +
+					"Naomaru Itoi\r\n" +
+					"Stepan Strelets\r\n\r\n" +
+					
+					"Keepass J2ME Packer comes with ABSOLUTELY NO WARRANTY.\r\n" + 
+					"This is free software, and you are welcome to redistribute it\r\n" +
+					"under certain conditions; for details visit:\r\n" +
+					"http://www.gnu.org/licenses/gpl-2.0.html",
+					
+					"About Keepass J2ME Packer",
+					JOptionPane.INFORMATION_MESSAGE,
+					new ImageIcon(Toolkit.getDefaultToolkit().getImage("res/images/logo.png")));
+			
+		} else if (button == save) {
+			getConfig();
+			conf.Save();
+			
 		} else if (button == ok) {
+			MidletPacker packer = new MidletPacker(getConfig());
+			try {
+				packer.pack();
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			}
+			
 		} else if (button == cancel) {
 			this.exit();
 		}

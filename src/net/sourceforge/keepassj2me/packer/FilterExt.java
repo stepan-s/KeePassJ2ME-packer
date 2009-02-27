@@ -3,6 +3,12 @@ package net.sourceforge.keepassj2me.packer;
 import java.io.File;
 import javax.swing.filechooser.*;
 
+/**
+ * FilterExt - filter by extension for file browse dialog
+ * 
+ * @author Stepan Strelets
+ *
+ */
 public class FilterExt extends FileFilter {
 	private String description = null;
 	private String extension = null;
