@@ -378,12 +378,12 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 					"Naomaru Itoi\r\n" +
 					"Stepan Strelets\r\n\r\n" +
 					
-					"Keepass J2ME Packer comes with ABSOLUTELY NO WARRANTY.\r\n" + 
+					"KeePass J2ME Packer comes with ABSOLUTELY NO WARRANTY.\r\n" + 
 					"This is free software, and you are welcome to redistribute it\r\n" +
 					"under certain conditions; for details visit:\r\n" +
 					"http://www.gnu.org/licenses/gpl-2.0.html",
 					
-					"About Keepass J2ME Packer",
+					"About KeePass J2ME Packer",
 					JOptionPane.INFORMATION_MESSAGE,
 					new ImageIcon(getImage("logo.png")));
 			
