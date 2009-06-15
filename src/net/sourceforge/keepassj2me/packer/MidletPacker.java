@@ -66,28 +66,15 @@ public class MidletPacker {
 		String kdb, name, names = "";
 		Vector<String> already = new Vector<String>();
 		int i = 0;
-		while((kdb = conf.getSourceKdb(i++)) != null) {
+		while((kdb = conf.getSourceKdb(i)) != null) {
 			File srcKdb = new File(kdb);
 			if (!srcKdb.exists()) throw new Exception("Source KDB '"+kdb+"' not exists");
 			if (!srcKdb.isFile()) throw new Exception("Source KDB '"+kdb+"' not is file");
 			if (!srcKdb.canRead()) throw new Exception("Source KDB '"+kdb+"' not readable");
 			
-			// check for ASCII, jar not allow Unicode
 			name = srcKdb.getName();
-			if ((new String(name.getBytes(), "ISO-8859-1")).compareTo(name) != 0) {
-				JOptionPane.showMessageDialog(null, "Source KDB '"+name+"' contain not ASCII symbols, renamed", "Warning", JOptionPane.WARNING_MESSAGE);
-				name = "renamed.kdb";
-			};
-			
-			// check duplicate filename
-			String name2 = name;
-			int n = 1;
-			while(already.contains(name)) {
-				name = name2+"."+n;
-				i++;
-			};
-			
-			JarEntry entry = new JarEntry("kdb/"+name);
+			//file name in jar dir `/kdb` == name index in names (`/kdb/ls`)
+			JarEntry entry = new JarEntry("kdb/"+i);
 			dst.putNextEntry(entry);
 			names += name+"\n";
 			already.add(name);
@@ -96,11 +83,13 @@ public class MidletPacker {
 			while ((bytesRead = kdbStream.read(buffer)) != -1) {
 				dst.write(buffer, 0, bytesRead);
 			};
+			++i;
 		};
 		// add kdb list to jar
 		JarEntry lsentry = new JarEntry("kdb/ls");
 		dst.putNextEntry(lsentry);
-		dst.write(names.getBytes(), 0, names.getBytes().length);
+		byte[] names_bytes = names.getBytes("UTF-8");
+		dst.write(names_bytes, 0, names_bytes.length);
 		
 		dst.close();
 	}

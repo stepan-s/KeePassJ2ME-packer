@@ -367,9 +367,9 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		    };
 		} else if (button == info) {
 			JOptionPane.showMessageDialog(this,
-					"Version: 1.2.0\r\n\r\n" +
+					"Version: 1.2.1\r\n\r\n" +
 					
-					"Project page:\r\nhttp://sourceforge.net/projects/keepassj2me/\r\n\r\n" +
+					"Project page:\r\nhttp://keepassj2me.sourceforge.net/\r\n\r\n" +
 					
 					"License:\r\n" + 
 					"GNU GPL v2 http://www.gnu.org/licenses/gpl-2.0.html\r\n\r\n" +
