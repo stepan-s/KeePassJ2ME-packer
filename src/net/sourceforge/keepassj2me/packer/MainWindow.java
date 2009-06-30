@@ -367,7 +367,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		    };
 		} else if (button == info) {
 			JOptionPane.showMessageDialog(this,
-					"Version: 1.2.1\r\n\r\n" +
+					"Version: 1.3.0\r\n\r\n" +
 					
 					"Project page:\r\nhttp://keepassj2me.sourceforge.net/\r\n\r\n" +
 					
