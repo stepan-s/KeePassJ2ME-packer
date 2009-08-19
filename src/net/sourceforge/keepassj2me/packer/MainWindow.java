@@ -122,7 +122,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		 */
 		y = 2;
 		
-		JLabel caption2 = new JLabel("Source KDB - KeePass Key Databases");
+		JLabel caption2 = new JLabel("Source KDB - KeePass Key Databases (and key files)");
 		caption2.setIcon(new ImageIcon(getImage("database.png")));
 		constraints.anchor = GridBagConstraints.WEST;
 		constraints.fill = GridBagConstraints.NONE;
