@@ -3,7 +3,9 @@ package net.sourceforge.keepassj2me.packer;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.Enumeration;
 import java.util.Vector;
 import java.util.jar.JarEntry;
@@ -48,13 +50,30 @@ public class MidletPacker {
         byte buffer[] = new byte[1024];
         int bytesRead;
 
+        boolean resourcePackEnabled = conf.getResourcesPackEnable();
+        String iconsPackDir = "/res/packs/" + conf.getIconsPackName() + "/";
+        String logoPackDir = "/res/packs/" + conf.getLogoPackName() + "/";
+        
         // copy jar content
 		Enumeration<JarEntry> entries = src.entries();
 		while (entries.hasMoreElements()) {
 			JarEntry entry = entries.nextElement();
-			InputStream is = src.getInputStream(entry);
-			dst.putNextEntry(entry);
+			String name = entry.getName();
+			InputStream is;
 			
+			if (resourcePackEnabled && name.equals("images/icon.png")) {
+				entry = new JarEntry(name);
+				is = this.getResourceInputStream(logoPackDir + name.substring(7));
+				
+			} else if (resourcePackEnabled && name.startsWith("images/")) {
+				entry = new JarEntry(name);
+				is = this.getResourceInputStream(iconsPackDir + name.substring(7));
+				
+			} else {
+				is = src.getInputStream(entry);
+			};
+			
+			dst.putNextEntry(entry);
 			while ((bytesRead = is.read(buffer)) != -1) {
 				dst.write(buffer, 0, bytesRead);
 			};
@@ -85,12 +104,20 @@ public class MidletPacker {
 			};
 			++i;
 		};
+		
 		// add kdb list to jar
-		JarEntry lsentry = new JarEntry("kdb/ls");
-		dst.putNextEntry(lsentry);
-		byte[] names_bytes = names.getBytes("UTF-8");
-		dst.write(names_bytes, 0, names_bytes.length);
+		if (names.length() > 0) {
+			JarEntry lsentry = new JarEntry("kdb/ls");
+			dst.putNextEntry(lsentry);
+			byte[] names_bytes = names.getBytes("UTF-8");
+			dst.write(names_bytes, 0, names_bytes.length);
+		};
 		
 		dst.close();
+	}
+	private InputStream getResourceInputStream(String path) throws IOException {
+		URL url = getClass().getResource(path);
+		if (url != null) return url.openStream();
+		else return new FileInputStream(new File("."+path));
 	}
 }

@@ -10,6 +10,8 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
@@ -19,6 +21,8 @@ import java.util.Enumeration;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -35,7 +39,7 @@ import javax.swing.ListSelectionModel;
  * @author Stepan Strelets
  *
  */
-public class MainWindow extends JFrame implements ActionListener, WindowListener {
+public class MainWindow extends JFrame implements ActionListener, WindowListener, ItemListener {
 	private static final long serialVersionUID = -62505571827133047L;
 	
 	private JTextField srcJar = null;
@@ -49,6 +53,10 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	
 	private JTextField dstJar = null;
 	private JButton dstJarBrowse = null;
+	
+	private JCheckBox resPackEnable = null;
+	private JComboBox resIconsPackName = null;
+	private JComboBox resLogoPackName = null;
 	
 	private JButton info = null;
 	private JButton ok = null;
@@ -228,9 +236,83 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		this.add(dstJarBrowse, constraints);
 		
 		/*
-		 * BUTTONS
+		 * ICONS PACK
 		 */
 		x = 0; y = 7;
+		
+		JLabel caption4 = new JLabel("Resource pack");
+		caption4.setIcon(new ImageIcon(getImage("compress.png")));
+		constraints.anchor = GridBagConstraints.WEST;
+		constraints.fill = GridBagConstraints.NONE;
+		constraints.gridheight = 1;
+		constraints.gridwidth = 2;
+		constraints.gridx = x;
+		constraints.gridy = y;
+		constraints.insets = new Insets(5, 20, 0, 20);
+		constraints.weightx = 0;
+		constraints.weighty = 0;
+		this.add(caption4, constraints);
+		
+		JPanel resPack = new JPanel();
+		resPack.setLayout(new FlowLayout(FlowLayout.LEFT));
+		constraints.anchor = GridBagConstraints.CENTER;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		constraints.gridheight = 1;
+		constraints.gridwidth = 1;
+		constraints.gridx = x;
+		constraints.gridy = y + 1;
+		constraints.insets = new Insets(5, 20, 5, 5);
+		constraints.weightx = 1;
+		constraints.weighty = 0;
+		this.add(resPack, constraints);
+		
+		resPackEnable = new JCheckBox("Enable");
+		resPackEnable.addItemListener(new ItemListener () {
+			public void itemStateChanged(ItemEvent event) {
+				if (event.getStateChange() == ItemEvent.SELECTED) {
+					resIconsPackName.setEnabled(true);
+					resLogoPackName.setEnabled(true);
+					conf.setResourcesPackEnable(true);
+					conf.setIconsPackName(resIconsPackName.getSelectedItem().toString());
+					conf.setLogoPackName(resLogoPackName.getSelectedItem().toString());
+				} else {
+					resIconsPackName.setEnabled(false);
+					resLogoPackName.setEnabled(false);
+					conf.setResourcesPackEnable(false);
+				}
+			}});
+		resPack.add(resPackEnable);
+		
+		JLabel caption41 = new JLabel("Icons:");
+		resPack.add(caption41);
+		
+		resIconsPackName = new JComboBox();
+		resIconsPackName.setEditable(false);
+		resIconsPackName.setEnabled(false);
+		resIconsPackName.addItem("16x16");
+		resIconsPackName.addItem("22x22");
+		resIconsPackName.addItem("32x32");
+		resIconsPackName.addItem("64x64");
+		resIconsPackName.addItemListener(this);
+		resPack.add(resIconsPackName);
+
+		JLabel caption42 = new JLabel("Logo:");
+		resPack.add(caption42);
+		
+		resLogoPackName = new JComboBox();
+		resLogoPackName.setEditable(false);
+		resLogoPackName.setEnabled(false);
+		resLogoPackName.addItem("16x16");
+		resLogoPackName.addItem("22x22");
+		resLogoPackName.addItem("32x32");
+		resLogoPackName.addItem("64x64");
+		resLogoPackName.addItemListener(this);
+		resPack.add(resLogoPackName);
+		
+		/*
+		 * BUTTONS
+		 */
+		x = 0; y = 9;
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
@@ -289,6 +371,15 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 			while((kdb = conf.getSourceKdb(i++)) != null) srcKdbModel.addElement(kdb);
 			dstJar.setText(conf.getTargetJar());
 			srcKbdLastDir = conf.getKdbLastDir();
+			
+			String iconsPackName = conf.getIconsPackName();
+			resIconsPackName.setSelectedItem(iconsPackName);
+			
+	        String logoPackName = conf.getLogoPackName();
+	        resLogoPackName.setSelectedItem(logoPackName);
+	        
+			boolean resourcePackEnabled = conf.getResourcesPackEnable();
+			if (resourcePackEnabled) resPackEnable.setSelected(true);
 		};
 	}
 
@@ -367,7 +458,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		    };
 		} else if (button == info) {
 			JOptionPane.showMessageDialog(this,
-					"Version: 1.3.0\r\n\r\n" +
+					"Version: 1.3.1\r\n\r\n" +
 					
 					"Project page:\r\nhttp://keepassj2me.sourceforge.net/\r\n\r\n" +
 					
@@ -412,4 +503,13 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	public void windowDeiconified(WindowEvent e) {}
 	public void windowIconified(WindowEvent e) {}
 	public void windowOpened(WindowEvent e) {}
+
+	public void itemStateChanged(ItemEvent event) {
+		JComboBox box = (JComboBox)event.getSource();
+		if (box == resIconsPackName) {
+			conf.setIconsPackName(event.getItem().toString());
+		} else if (box == resLogoPackName) {
+			conf.setLogoPackName(event.getItem().toString());
+		}
+	}
 }

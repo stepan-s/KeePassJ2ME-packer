@@ -89,4 +89,24 @@ public class Config {
 	public void setKdbLastDir(String value) {
 		prop.setProperty("src.kdbdir", value);
 	}
+	
+	public boolean getResourcesPackEnable() {
+		String value = prop.getProperty("respack.enable", "0");
+		return Integer.parseInt(value) != 0;
+	}
+	public void setResourcesPackEnable(boolean value) {
+		prop.setProperty("respack.enable", value ? "1" : "0");
+	}
+	public String getIconsPackName() {
+		return prop.getProperty("respack.icons.name", "");
+	}
+	public void setIconsPackName(String value) {
+		prop.setProperty("respack.icons.name", value);
+	}
+	public String getLogoPackName() {
+		return prop.getProperty("respack.logo.name", "");
+	}
+	public void setLogoPackName(String value) {
+		prop.setProperty("respack.logo.name", value);
+	}
 }
