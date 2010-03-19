@@ -292,7 +292,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		resIconsPackName.addItem("16x16");
 		resIconsPackName.addItem("22x22");
 		resIconsPackName.addItem("32x32");
-		resIconsPackName.addItem("64x64");
+		resIconsPackName.addItem("48x48");
 		resIconsPackName.addItemListener(this);
 		resPack.add(resIconsPackName);
 
@@ -305,7 +305,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		resLogoPackName.addItem("16x16");
 		resLogoPackName.addItem("22x22");
 		resLogoPackName.addItem("32x32");
-		resLogoPackName.addItem("64x64");
+		resLogoPackName.addItem("48x48");
 		resLogoPackName.addItemListener(this);
 		resPack.add(resLogoPackName);
 		
