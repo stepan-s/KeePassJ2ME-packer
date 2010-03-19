@@ -306,6 +306,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		resLogoPackName.addItem("22x22");
 		resLogoPackName.addItem("32x32");
 		resLogoPackName.addItem("48x48");
+		resLogoPackName.addItem("64x64");
 		resLogoPackName.addItemListener(this);
 		resPack.add(resLogoPackName);
 		
