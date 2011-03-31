@@ -90,7 +90,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		this.setIconImage(getImage("icon.png"));
 		this.setTitle("KeePass J2ME Packer");
 		this.setSize(600, 440);
-		this.setMinimumSize(new Dimension(440, 320));
+		this.setMinimumSize(new Dimension(440, 400));
 		this.setLocationRelativeTo(null);
 		
 		this.setLayout(new GridBagLayout());
