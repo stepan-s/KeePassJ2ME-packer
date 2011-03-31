@@ -1,3 +1,22 @@
+/*
+	Copyright 2008-2011 Stepan Strelets
+	http://keepassj2me.sourceforge.net/
+
+	This file is part of KeePass for J2ME Packer.
+	
+	KeePass for J2ME Packer is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, version 2.
+	
+	KeePass for J2ME Packer is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+	
+	You should have received a copy of the GNU General Public License
+	along with KeePass for J2ME Packer.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package net.sourceforge.keepassj2me.packer;
 
 import java.awt.BorderLayout;
@@ -467,11 +486,11 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 					"GNU GPL v2 http://www.gnu.org/licenses/gpl-2.0.html\r\n\r\n" +
 					
 					"Authors (In alphabetic order):\r\n" +
-					"Naomaru Itoi\r\n" +
 					"Stepan Strelets\r\n\r\n" +
 
 					"Thanks to:\r\n" +
-					"Mark James (silk icons) http://famfamfam.com\r\n\r\n" +
+					"Mark James (silk icons) http://famfamfam.com\r\n" +
+					"Naomaru Itoi\r\n\r\n" +
 					
 					"KeePass J2ME Packer comes with ABSOLUTELY NO WARRANTY.\r\n" + 
 					"This is free software, and you are welcome to redistribute it\r\n" +
