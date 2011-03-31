@@ -403,6 +403,11 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		};
 	}
 
+	/**
+	 * Get image from resources
+	 * @param name image file name
+	 * @return image
+	 */
 	public Image getImage(String name) {
 		URL url = getClass().getResource("/res/images/" + name);
 		if (url != null) return Toolkit.getDefaultToolkit().getImage(url);
@@ -422,6 +427,10 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		};
 		return false;
 	}
+	/**
+	 * Get config
+	 * @return Config object
+	 */
 	public Config getConfig() {
 		conf.setSourceJar(srcJar.getText());
 		conf.clearSourceKdb();

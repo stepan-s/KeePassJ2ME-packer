@@ -46,6 +46,10 @@ public class MidletPacker {
 		this.conf = conf;
 	}
 	
+	/**
+	 * Pack midlet
+	 * @throws Exception on fail
+	 */
 	public void pack() throws Exception {
 		// check source
 		File srcJar = new File(conf.getSourceJar());

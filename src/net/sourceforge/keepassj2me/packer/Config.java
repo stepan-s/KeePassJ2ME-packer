@@ -51,6 +51,10 @@ public class Config {
 		prop = new Properties();
 	}
 	
+	/**
+	 * Load configuration
+	 * @return true on success
+	 */
 	public boolean Load() {
 		InputStream in;
 		try {
@@ -62,6 +66,10 @@ public class Config {
 		return false;
 	}
 	
+	/**
+	 * Save configuration
+	 * @return true on success
+	 */
 	public boolean Save() {
 		OutputStream out;
 		try {
@@ -73,27 +81,56 @@ public class Config {
 		return false;
 	}
 	
+	/**
+	 * Get source jar path
+	 * @return path to source jar
+	 */
 	public String getSourceJar() {
 		return prop.getProperty("src.jar", "");
 	}
+	/**
+	 * Set source jar path
+	 * @param value path to source jar
+	 */
 	public void setSourceJar(String value) {
 		prop.setProperty("src.jar", value);
 	}
 	
+	/**
+	 * Get destination jar path
+	 * @return path to destination jar
+	 */
 	public String getTargetJar() {
 		return prop.getProperty("dst.jar", "");
 	}
+	/**
+	 * Set destination jar path
+	 * @param value path to destination jar
+	 */
 	public void setTargetJar(String value) {
 		prop.setProperty("dst.jar", value);
 	}
 	
+	/**
+	 * Get path to kdb by index
+	 * @param index record index
+	 * @return path to kdb
+	 */
 	public String getSourceKdb(int index) {
 		if (prop.containsKey("src.kdb."+index)) return prop.getProperty("src.kdb."+index);
 		else return null;
 	}
+	/**
+	 * Set path to kdb
+	 * @param index record index
+	 * @param value path to kdb
+	 */
 	public void setSourceKdb(int index, String value) {
 		prop.setProperty("src.kdb."+index, value);
 	}
+	/**
+	 * Clear all paths to kdb
+	 */
 	public void clearSourceKdb() {
 		String name;
 		for (Enumeration<?> e = prop.propertyNames(); e.hasMoreElements();) {
@@ -102,29 +139,61 @@ public class Config {
 		};
 	}
 	
+	/**
+	 * Get last directory path used to select kdb
+	 * @return path
+	 */
 	public String getKdbLastDir() {
 		return prop.getProperty("src.kdbdir", "");
 	}
+	/**
+	 * Set last directory path used to select kdb
+	 * @param value path
+	 */
 	public void setKdbLastDir(String value) {
 		prop.setProperty("src.kdbdir", value);
 	}
 	
+	/**
+	 * Get enable resource pack
+	 * @return enable
+	 */
 	public boolean getResourcesPackEnable() {
 		String value = prop.getProperty("respack.enable", "0");
 		return Integer.parseInt(value) != 0;
 	}
+	/**
+	 * Set enable resource pack
+	 * @param value
+	 */
 	public void setResourcesPackEnable(boolean value) {
 		prop.setProperty("respack.enable", value ? "1" : "0");
 	}
+	/**
+	 * Get name of icons pack
+	 * @return icon pack name
+	 */
 	public String getIconsPackName() {
 		return prop.getProperty("respack.icons.name", "");
 	}
+	/**
+	 * Set name of icons pack
+	 * @param value icon pack name
+	 */
 	public void setIconsPackName(String value) {
 		prop.setProperty("respack.icons.name", value);
 	}
+	/**
+	 * Get name of logo pack
+	 * @return logo pack name
+	 */
 	public String getLogoPackName() {
 		return prop.getProperty("respack.logo.name", "");
 	}
+	/**
+	 * Set name of logo pack
+	 * @param value logo pack name
+	 */
 	public void setLogoPackName(String value) {
 		prop.setProperty("respack.logo.name", value);
 	}
